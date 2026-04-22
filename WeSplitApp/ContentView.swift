@@ -29,7 +29,7 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             Form {
-                Section {
+                Section("Check details") {
                     TextField("Amount", value: $checkAmount, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
                         .keyboardType(.decimalPad)
                         .focused($amountIsFocused)
@@ -51,14 +51,45 @@ struct ContentView: View {
                     .pickerStyle(.segmented)
                 }
                 
-                Section("Receipt") {
-                    Text("Subtotal: \(checkAmount.formatted(.currency(code: Locale.current.currency?.identifier ?? "USD")))")
-                    Text("Tip: \(tipAmount.formatted(.currency(code: Locale.current.currency?.identifier ?? "USD")))")
-                    Text("Total: \(totalAmount.formatted(.currency(code: Locale.current.currency?.identifier ?? "USD")))")
-                }
-                
-                Section("Amount per person") {
-                    Text(totalPerPerson, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
+                Section("Summary") {
+                    HStack{
+                        Text("Subtotal:")
+                            .bold()
+                        
+                        Spacer()
+                        
+                        Text(checkAmount.formatted(.currency(code: Locale.current.currency?.identifier ?? "USD")))
+                    }
+                    
+                    HStack {
+                        Text("Tip:")
+                            .bold()
+                        
+                        Spacer()
+                        
+                        Text(tipAmount.formatted(.currency(code: Locale.current.currency?.identifier ?? "USD")))
+                    }
+                    
+                    HStack {
+                        Text("Total amount:")
+                            .bold()
+                        
+                        Spacer()
+                        
+                        Text(totalAmount.formatted(.currency(code: Locale.current.currency?.identifier ?? "USD")))
+                    }
+                    
+                    HStack {
+                        Text("Per person:")
+                            .bold()
+                            .font(.title3)
+                        
+                        Spacer()
+                        
+                        Text(totalPerPerson, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
+                            .bold()
+                            .font(.title3)
+                    }
                 }
             }
             .navigationTitle("WeSplit")
